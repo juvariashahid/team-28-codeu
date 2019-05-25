@@ -7,16 +7,41 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.google.codeu.data.Datastore;
+
+
 /**
- * Responds with a hard-coded message for testing purposes.
+ * Handles fetching and saving user data.
  */
 @WebServlet("/about")
 public class AboutMeServlet extends HttpServlet{
 
- @Override
- public void doGet(HttpServletRequest request, HttpServletResponse response)
-   throws IOException {
+  private Datastore datastore;
 
-  response.getOutputStream().println("hello world");
- }
+  @Override
+  public void init() {
+    datastore = new Datastore();
+  }
+
+  /**
+   * Gets the "about me" data for a specific user
+   */
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response)
+  throws IOException {
+    // sets the response type, as it can be interpreterd in many different ways
+    response.setContentType("text/html");
+
+    String user = request.getParameter("user");
+    // case of invalid of no user
+    if (user == null || user.equals("")) {
+      return;
+    }
+
+    // otherwise return the user
+    String aboutMe = "This is " + user + "'s about me page.";
+    response.getOutputStream().println(aboutMe);
+  }
 }

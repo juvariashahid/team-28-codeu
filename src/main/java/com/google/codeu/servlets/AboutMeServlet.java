@@ -44,4 +44,22 @@ public class AboutMeServlet extends HttpServlet{
     String aboutMe = "This is " + user + "'s about me page.";
     response.getOutputStream().println(aboutMe);
   }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
+  throws IOException {
+    // get the current user
+    UserService userService = UserServiceFactory.getUserService();
+    // if the user is not logged return to index
+    if (!userService.isUserLoggedIn()) {
+      response.sendRedirect("/index.html");
+      return;
+    }
+
+    String userEmail = userService.getCurrentUser().getEmail();
+    System.out.println("Saving about me for " + userEmail);
+    // TODO: save the data
+
+    response.sendRedirect("/user-page.html?user=" + userEmail);
+  }
 }

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
+import com.google.codeu.data.User;
+
 
 
 /**
@@ -57,8 +59,10 @@ public class AboutMeServlet extends HttpServlet{
     }
 
     String userEmail = userService.getCurrentUser().getEmail();
-    System.out.println("Saving about me for " + userEmail);
-    // TODO: save the data
+    String aboutMe = request.getParameter("about-me");
+
+    User user = new User(userEmail, aboutMe);
+    datastore.storeUser(user);
 
     response.sendRedirect("/user-page.html?user=" + userEmail);
   }

@@ -11,6 +11,8 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.User;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 
 
@@ -42,9 +44,13 @@ public class AboutMeServlet extends HttpServlet{
       return;
     }
 
-    // otherwise return the user
-    String aboutMe = "This is " + user + "'s about me page.";
-    response.getOutputStream().println(aboutMe);
+    User userData = datastore.getUser(user);
+
+    if(userData == null || userData.getAboutMe() == null) {
+      return;
+    }
+
+    response.getOutputStream().println(userData.getAboutMe());;
   }
 
   @Override
@@ -59,7 +65,7 @@ public class AboutMeServlet extends HttpServlet{
     }
 
     String userEmail = userService.getCurrentUser().getEmail();
-    String aboutMe = request.getParameter("about-me");
+    String aboutMe = Jsoup.clean(request.getParameter("about-me"), Whitelist.none());
 
     User user = new User(userEmail, aboutMe);
     datastore.storeUser(user);

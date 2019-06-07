@@ -18,13 +18,19 @@
 
         //add data to book_data
         schedule_data.addRows([
-            ["acamara", 14, 56, 21, 21, 56],
-            ["jsha", 7, 63, 14, 14, 70],
-            ["afran", 21, 49, 42, 7, 49],
-        ]);
+            ["acamara", 14/168.*100., 56/168.*100., 21/168.*100., 21/168.*100., 56/168.*100.],
+            ["jsha", 7/168.*100., 63/168.*100., 14/168.*100., 14/168.*100., 70/168.*100.],
+            ["afran", 21/168.*100., 49/168.*100., 42/168.*100., 7/168.*100., 49/168.*100.],
+            ]);
 
         var chart = new google.visualization.BarChart(document.getElementById('schedule_chart'));
-        chart.draw(schedule_data);
+        var chart_options = {
+          title: "Your schedule",
+          width: 800,
+          height: 400
+        };
+
+        chart.draw(schedule_data, chart_options);
       }
     </script>
   </head>

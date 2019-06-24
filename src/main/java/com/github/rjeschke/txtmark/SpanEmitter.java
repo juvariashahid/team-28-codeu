@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Google Inc.
+ * Copyright (C) 2011-2015 René Jeschke <rene_jeschke@yahoo.de>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,30 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.github.rjeschke.txtmark;
 
-/* Prevent the page from becoming too wide. */
-body {
-  max-width: 1000px;
-  background: AliceBlue;
-  margin: auto;
-}
-
-/* Remove bullet points from navigation bar. */
-nav ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-/* Keep navigation menu on one line. */
-nav li {
-  display: inline-block;
-  margin-right: 10px;
-  background-color: white;
-}
-
-h1 {
-  text-align: center;
-}
-nav {
-    background-color: SteelBlue;
+/**
+ * An interface for emitting span elements. Currently only used for special
+ * links.
+ *
+ * @author René Jeschke (rene_jeschke@yahoo.de)
+ */
+public interface SpanEmitter
+{
+    /**
+     * Emits a span element.
+     *
+     * @param out
+     *            The StringBuilder to append to.
+     * @param content
+     *            The span's content.
+     */
+    public void emitSpan(StringBuilder out, String content);
 }

@@ -73,6 +73,12 @@ limitations under the License.
       <version>1.70.0</version>
     </dependency>
 
+<dependency>
+ <groupId>com.google.cloud</groupId>
+ <artifactId>google-cloud-texttospeech</artifactId>
+ <version>0.80.0-beta</version>
+</dependency>
+
   </dependencies>
 
 

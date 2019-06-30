@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hello Google Maps</title>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOwVDsz4ZcfUvuIjbggjFp1Mphq_z26LI"></script>
+  <script>
+    function createMap(){
+      const map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 37.422, lng: -122.084},
+        zoom: 16
+      });
+
+      const empireMarker = new google.maps.Marker({
+        position: {lat: 40.7484, lng: 73.9857},
+        map: map,
+        title: 'Stan the T-Rex'
+      });
+
+      var empireInfoWindow = new google.maps.InfoWindow({
+        content: 'This is the empire state building'
+      });
+
+      empireInfoWindow.open(map, trexMarker);
+
+      empireMarker.addListener('click', function() {
+        empireInfoWindow.open(map, empireMarker);
+      });
+
+
+
+
+    }
+  </script>
+  <style>
+    #map {
+      width: 500px;
+      height: 500px;
+      border: thin solid black;
+    }
+  </style>
+</head>
+<body onload="createMap();">
+  <h1>Hello Google Maps</h1>
+  <div id="map"></div>
+  <p>Testing out the Google Maps</p>
+</body>
+</html>

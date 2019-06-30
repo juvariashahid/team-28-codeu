@@ -21,6 +21,11 @@ body {
   margin: auto;
 }
 
+.main {
+  background: white;
+  height: 100%;
+}
+
 /* Remove bullet points from navigation bar. */
 nav ul {
   list-style-type: none;
@@ -31,7 +36,19 @@ nav ul {
 nav li {
   display: inline-block;
   margin-right: 10px;
-  background-color: white;
+  color: white;
+}
+
+a {
+    color: #dedede;
+    text-decoration: none;
+}
+
+a:hover
+{
+     color:#f0f0f0;
+     text-decoration:none;
+     cursor:pointer;
 }
 
 h1 {

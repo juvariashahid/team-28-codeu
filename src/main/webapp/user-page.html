@@ -40,20 +40,37 @@ limitations under the License.
         <input type="submit" value="Submit">
       </form>
     </div>
-
-    <form id="message-form" action="/messages" method="POST" class="hidden">
-     <!--  Enter a new message:
-      <br/>
-      <textarea name="text" id="message-input"></textarea>
-      <br/>
-      <input type="submit" value="Submit"> -->
-      Enter a new goal:
-      <br/>
-      Goal Name: <input type="text" name="title"><br>
-      Goal Type: <input type="text" name="content"><br>
-      Amount of time: <input type="text" name="time"><br>
-      <input type="submit" value="Submit">
-    </form>
+    <div id="form-container">
+      <form id="message-form" action="/messages" method="POST" class="hidden">
+       <!--  Enter a new message:
+        <br/>
+        <textarea name="text" id="message-input"></textarea>
+        <br/>
+        <input type="submit" value="Submit"> -->
+        Enter a new goal:
+        <br/>
+        Goal Name: <input type="text" name="title"><br>
+        <!-- <input type="text" name="content"><br> -->
+        Goal Type:
+        <select name="content">
+          <option value="Exercise">Exercise</option>
+          <option value="Leisure">Leisure</option>
+          <option value="Study">Study</option>
+          <option value="Social">Social</option>
+        </select>
+        <br/>
+        Amount of time:
+        <!-- <input type="text" name="time"><br> -->
+        <select name="time">
+          <option value="Half-hour">Half-hour</option>
+          <option value="1 hour">1 hour</option>
+          <option value="2 hours">2 hours</option>
+          <option value="3 hours">3 hours</option>
+        </select>
+        <br/>
+        <input type="submit" value="Submit">
+      </form>
+    </div>
     <hr/>
 
     <div id="message-container">Loading...</div>

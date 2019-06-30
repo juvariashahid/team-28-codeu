@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
-//import com.github.rjeschke.txtmark.Processor;
+import com.github.rjeschke.txtmark.Processor;
 
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/messages")
@@ -76,11 +76,10 @@ public class MessageServlet extends HttpServlet {
     }
 
     String user = userService.getCurrentUser().getEmail();
-    String eol = System.getProperty("line.separator");
-    String text = Jsoup.clean("Title: " + request.getParameter("title") + eol + "Category: " + request.getParameter("content") + eol + "Amount of time: " + request.getParameter("time"), Whitelist.none());
-    //String markdown = Processor.process(text);
+    String text = Jsoup.clean("Title: " + request.getParameter("title") +  " Category: " + request.getParameter("content") + " Amount of time: " + request.getParameter("time"), Whitelist.none());
+    String markdown = Processor.process(text);
 
-    Message message = new Message(user, text);
+    Message message = new Message(user, markdown);
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + user);

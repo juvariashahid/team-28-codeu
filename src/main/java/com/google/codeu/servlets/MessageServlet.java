@@ -76,7 +76,8 @@ public class MessageServlet extends HttpServlet {
     }
 
     String user = userService.getCurrentUser().getEmail();
-    String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+    String eol = System.getProperty("line.separator");
+    String text = Jsoup.clean("Title: " + request.getParameter("title") + eol + "Category: " + request.getParameter("content") + eol + "Amount of time: " + request.getParameter("time"), Whitelist.none());
     //String markdown = Processor.process(text);
 
     Message message = new Message(user, text);

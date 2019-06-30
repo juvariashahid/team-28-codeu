@@ -14,10 +14,16 @@
     </div>
 
     <form id="message-form" action="/messages" method="POST" class="hidden">
+      <!-- Enter a title:
+      <br/>
+      <textarea name="title" id="message-input"></textarea>
+      <br/>
       Enter a new message:
       <br/>
-      <textarea name="text" id="message-input"></textarea>
-      <br/>
+      <textarea name="content" id="message-input"></textarea>
+      <br/> -->
+      First name: <input type="text" name="fname"><br>
+      Last name: <input type="text" name="lname"><br>
       <input type="submit" value="Submit">
     </form>
     <hr/>

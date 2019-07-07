@@ -29,6 +29,13 @@ If the user is logged in, redirect to the user-page -->
         <li><a href="/">Home</a></li>
 		<li><a href="/login">Login</a></li>
 		<li><a href="/aboutus.html">About Our Team</a></li>
+    <li><a href="/SentimentAnalysis.html">Sentiment Analysis</a></li>
+    <li><a href="/maps.html">Maps</a></li>
+    <li><a href="/charts.html">Charts</a></li>
+    <li><a href="/stats.html">Stats</a></li>
+    <li><a href="/translation.html">Translation</a></li>
+
+
 		<!-- Need to add links to all of our projects -->
       </ul>
     </nav>

@@ -45,3 +45,11 @@
 .hidden {
   display: none;
 }
+
+#form-container {
+  background: #4770b3;
+  width: 25%;
+  color: white;
+  padding: 10px;
+
+}

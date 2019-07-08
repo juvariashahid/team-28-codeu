@@ -12,6 +12,7 @@
  -->      <nav>
           <ul id="navigation">
           <li><a href="/calendar.jsp">myCal</a></li>
+          <li><a href="/aboutus.html">About Our Team</a></li>
           <li><a href="/logout">Logout</a></li>
           </ul>
       </nav>

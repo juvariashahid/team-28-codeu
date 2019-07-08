@@ -29,6 +29,13 @@ If the user is logged in, redirect to the user-page -->
         <li><a href="/">Home</a></li>
 		<li><a href="/login">Login</a></li>
 		<li><a href="/aboutus.html">About Our Team</a></li>
+    <li><a href="/SentimentAnalysis.html">Sentiment Analysis</a></li>
+    <li><a href="/maps.html">Maps</a></li>
+    <li><a href="/charts.html">Charts</a></li>
+    <li><a href="/stats.html">Stats</a></li>
+    <li><a href="/translation.html">Translation</a></li>
+
+
 		<!-- Need to add links to all of our projects -->
       </ul>
     </nav>
@@ -42,6 +49,13 @@ If the user is logged in, redirect to the user-page -->
         <p>This is Team 28's project. Click the links above to login and visit your page.
         You can post messages on your page, and you can visit other user pages if you have
          their URL.</p>
+        <p>Our User group: People who need help scheduling and students that want to increase their productivity or be healthier </p>
+        <p>These are the current projects implemented in this webpage:</p>
+        <li> ML Sentiment Analysis - Juvaria </li>
+        <li> Charts 1 & 2 - Amadou </li>
+        <li>Styled Text - Alexa</li>
+        <li>Server-Side Rendering - Juvaria</li>
+        <li>Styling - Alexa</li>
       </div>
      <!-- End of Page Content -->
   </body>

@@ -35,7 +35,7 @@
         <br/>
         Goal Name: <input type="text" name="title"><br>
         Goal Type:
-        <select name="content">
+        <select name="fred">
           <option value="Exercise">Exercise</option>
           <option value="Leisure">Leisure</option>
           <option value="Study">Study</option>

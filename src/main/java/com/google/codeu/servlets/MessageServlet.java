@@ -76,10 +76,10 @@ public class MessageServlet extends HttpServlet {
     }
 
     String user = userService.getCurrentUser().getEmail();
-    String text = Jsoup.clean("Title: " + request.getParameter("title") +  " Category: " + request.getParameter("content") + " Amount of time: " + request.getParameter("time"), Whitelist.none());
-    String markdown = Processor.process(text);
+    String text = Jsoup.clean(request.getParameter("title") , Whitelist.none());
+    //String markdown = Processor.process(text);
 
-    Message message = new Message(user, markdown);
+    Message message = new Message(user, text, request.getParameter("content"), request.getParameter("time"));
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + user);

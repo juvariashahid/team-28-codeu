@@ -24,20 +24,24 @@ public class Message {
   private UUID id;
   private String user;
   private String text;
+  private String category;
+  private String time;
   private long timestamp;
 
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content. Generates a
    * random ID and uses the current system time for the creation time.
    */
-  public Message(String user, String text) {
-    this(UUID.randomUUID(), user, text, System.currentTimeMillis());
+  public Message(String user, String text, String category, String time) {
+    this(UUID.randomUUID(), user, text, category, time, System.currentTimeMillis());
   }
 
-  public Message(UUID id, String user, String text, long timestamp) {
+  public Message(UUID id, String user, String text, String category, String time, long timestamp) {
     this.id = id;
     this.user = user;
     this.text = text;
+    this.category = category;
+    this.time = time;
     this.timestamp = timestamp;
   }
 
@@ -51,6 +55,14 @@ public class Message {
 
   public String getText() {
     return text;
+  }
+
+  public String getCategory() {
+    return category;
+  }
+
+  public String getTime() {
+    return time;
   }
 
   public long getTimestamp() {

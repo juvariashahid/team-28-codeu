@@ -42,6 +42,8 @@ public class Datastore {
     Entity messageEntity = new Entity("Message", message.getId().toString());
     messageEntity.setProperty("user", message.getUser());
     messageEntity.setProperty("text", message.getText());
+    messageEntity.setProperty("category", message.getCategory());
+    messageEntity.setProperty("time", message.getTime());
     messageEntity.setProperty("timestamp", message.getTimestamp());
 
     datastore.put(messageEntity);
@@ -67,9 +69,11 @@ public class Datastore {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
         String text = (String) entity.getProperty("text");
+        String category = (String) entity.getProperty("category");
+        String time = (String) entity.getProperty("time");
         long timestamp = (long) entity.getProperty("timestamp");
 
-        Message message = new Message(id, user, text, timestamp);
+        Message message = new Message(id, user, text, category, time, timestamp);
         messages.add(message);
       } catch (Exception e) {
         System.err.println("Error reading message.");
@@ -94,9 +98,11 @@ public class Datastore {
     UUID id = UUID.fromString(idString);
     String user = (String) entity.getProperty("user");
     String text = (String) entity.getProperty("text");
+    String category = (String) entity.getProperty("category");
+    String time = (String) entity.getProperty("time");
     long timestamp = (long) entity.getProperty("timestamp");
 
-    Message message = new Message(id, user, text, timestamp);
+    Message message = new Message(id, user, text, category, time, timestamp);
     messages.add(message);
    } catch (Exception e) {
     System.err.println("Error reading message.");

@@ -14,9 +14,22 @@
  */
 
 package com.google.codeu.servlets;
-
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.api.services.calendar.CalendarScopes;
+import java.util.Collections;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventDateTime;
+import com.google.api.services.calendar.Calendar;
+import com.google.api.client.util.DateTime;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
@@ -29,6 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import com.github.rjeschke.txtmark.Processor;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/messages")
@@ -78,10 +92,60 @@ public class MessageServlet extends HttpServlet {
     String user = userService.getCurrentUser().getEmail();
     String text = Jsoup.clean(request.getParameter("title") , Whitelist.none());
     //String markdown = Processor.process(text);
-
-    Message message = new Message(user, text, request.getParameter("content"), request.getParameter("time"));
+    String description =  request.getParameter("content");
+    Message message = new Message(user, text, description, request.getParameter("time"));
     datastore.storeMessage(message);
-
+    try {
+          createEvent(text, description);
+    } catch (Exception e) {}
     response.sendRedirect("/user-page.html?user=" + user);
   }
+
+  private void createEvent(String summary, String description) throws IOException {
+    try {
+      Event event = new Event()
+      .setSummary(summary)
+      .setDescription(description);
+
+      DateTime startDateTime = new DateTime("2019-07-16T09:00:00-07:00");
+      EventDateTime start = new EventDateTime()
+          .setDateTime(startDateTime)
+          .setTimeZone("America/Los_Angeles");
+      event.setStart(start);
+
+      DateTime endDateTime = new DateTime("2019-07-16T17:00:00-07:00");
+      EventDateTime end = new EventDateTime()
+          .setDateTime(endDateTime)
+          .setTimeZone("America/Los_Angeles");
+      event.setEnd(end);
+
+      String calendarId = "primary";
+      event = getService().events().insert(calendarId, event).execute();
+      System.out.printf(event.getHtmlLink());
+    } catch (Exception e) {
+      System.out.println("An execption occurred: " + e);
+    }
+  }
+
+    private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
+    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+
+    /**
+     * Global instance of the scopes required by this quickstart.
+     * If modifying these scopes, delete your previously saved tokens/ folder.
+     */
+    private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
+    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+    private Calendar getService() throws Exception {
+                        // Build a new authorized API client service.
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        GoogleCredential credential = new GoogleCredential();
+        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+
+        return service;
+
+    }
 }

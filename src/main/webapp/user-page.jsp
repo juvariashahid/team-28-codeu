@@ -13,12 +13,6 @@
     <script src="/js/user-page-loader.js"></script>
   </head>
   <body onload="buildUI();">
-    <nav>
-      <ul id="navigation">
-        <li><a href="/">Home</a></li>
-        <li><a href="/aboutus.html">About Our Team</a></li>
-      </ul>
-    </nav>
     <h1 id="page-title">User Page</h1>
 
     <div id="about-me-container">Loading...</div>

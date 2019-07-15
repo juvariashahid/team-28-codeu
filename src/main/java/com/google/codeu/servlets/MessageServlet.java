@@ -98,7 +98,7 @@ public class MessageServlet extends HttpServlet {
     try {
           createEvent(text, description);
     } catch (Exception e) {}
-    response.sendRedirect("/user-page.html?user=" + user);
+    response.sendRedirect("/user-page.jsp?user=" + user);
   }
 
   private void createEvent(String summary, String description) throws IOException {

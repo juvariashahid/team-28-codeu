@@ -5,53 +5,15 @@
 <meta charset='utf-8' />
 <link href='../packages/core/main.css' rel='stylesheet' />
 <link href='../packages/daygrid/main.css' rel='stylesheet' />
+<link href='../packages/timegrid/main.css' rel='stylesheet' />
 <link href='../packages/list/main.css' rel='stylesheet' />
 <script src='../packages/core/main.js'></script>
 <script src='../packages/interaction/main.js'></script>
 <script src='../packages/daygrid/main.js'></script>
+<script src='../packages/timegrid/main.js'></script>
 <script src='../packages/list/main.js'></script>
 <script src='../packages/google-calendar/main.js'></script>
 <script src='./config.js'></script>
-<script>
-
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-
-      plugins: [ 'interaction', 'dayGrid', 'list', 'googleCalendar' ],
-
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridWeek,dayGridMonth,listYear'
-      },
-
-      displayEventTime: false, // don't show the time column in list view
-
-      googleCalendarApiKey: config.API_KEY,
-
-      // US Holidays
-      events: 'en.usa#holiday@group.v.calendar.google.com',
-
-      eventClick: function(arg) {
-        // opens events in a popup window
-        window.open(arg.event.url, 'google-calendar-event', 'width=700,height=600');
-
-        arg.jsEvent.preventDefault() // don't navigate in main tab
-      },
-
-      loading: function(bool) {
-        document.getElementById('loading').style.display =
-          bool ? 'block' : 'none';
-      }
-
-    });
-
-    calendar.render();
-  });
-
-</script>
 <style>
 
   body {
@@ -142,7 +104,7 @@
           if (isSignedIn) {
             authorizeButton.style.display = 'none';
             signoutButton.style.display = 'block';
-            listUpcomingEvents();
+            getAllCalenders();
           } else {
             authorizeButton.style.display = 'block';
             signoutButton.style.display = 'none';
@@ -180,32 +142,98 @@
          * the authorized user's calendar. If no events are found an
          * appropriate message is printed.
          */
-        function listUpcomingEvents() {
-          appendPre('Upcoming events:');
-          gapi.client.calendar.events.list({
-            'calendarId': 'primary',
-            'timeMin': (new Date()).toISOString(),
-            'showDeleted': false,
-            'singleEvents': true,
-            'maxResults': 10,
-            'orderBy': 'startTime'
-          }).then(function(response) {
-            var events = response.result.items;
 
-            if (events.length > 0) {
-              for (i = 0; i < events.length; i++) {
-                var event = events[i];
-                var when = event.start.dateTime;
-                if (!when) {
-                  when = event.start.date;
-                }
-                appendPre(event.summary + ' (' + when + ')')
-              }
-            } else {
-              appendPre('No upcoming events found.');
-            }
+        function getAllCalenders() {
+          gapi.client.calendar.calendarList.list({
+          }).then(function(response) {
+            var listOfCalendars = response.result.items.map(item => item.id);
+            console.log("Response", listOfCalendars);
+            listUpcomingEvents(Array.from(listOfCalendars));
           });
         }
+
+        function listUpcomingEvents(calendarList) {
+          appendPre('Upcoming events:');
+          for (i = 0; i < calendarList.length; i++) {
+            console.log("Response", calendarList[i]);
+            gapi.client.calendar.events.list({
+              'calendarId': calendarList[i],
+              'timeMin': (new Date()).toISOString(),
+              'showDeleted': false,
+              'singleEvents': true,
+              'maxResults': 10,
+              'orderBy': 'startTime'
+            }).then(function(response) {
+              var events = response.result.items;
+
+              if (events.length > 0) {
+                for (i = 0; i < events.length; i++) {
+                  var event = events[i];
+                  var when = event.start.dateTime;
+                  if (!when) {
+                    when = event.start.date;
+                  }
+                  appendPre(event.summary + ' (' + when + ')')
+                }
+              }
+            });
+          }
+        }
+
+        function allEvents () {
+          gapi.client.calendar.calendarList.list({
+          }).then(function(response) {
+            return response.result.items.map(item => item.id);
+          });
+        }
+
+        var allCalEvents = allEvents();
+        console.log("Response for event listener", allCalEvents);
+
+        document.addEventListener('DOMContentLoaded', function() {
+          var calendarEl = document.getElementById('calendar');
+
+          var calendar = new FullCalendar.Calendar(calendarEl, {
+
+            plugins: [ 'interaction', 'timeGrid', 'list', 'googleCalendar' ],
+
+            defaultView: 'timeGridWeek',
+
+            header: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridWeek,dayGridMonth,listYear'
+            },
+
+            displayEventTime: false, // don't show the time column in list view
+
+            googleCalendarApiKey: config.API_KEY,
+
+            eventSources: [
+              {
+                googleCalendarId: 'codeustudents.com_3m9ptltrov41ihifmffmaeqo0k@group.calendar.google.com'
+              },
+              {
+                googleCalendarId:'en.usa#holiday@group.v.calendar.google.com'
+              }
+            ],
+
+            eventClick: function(arg) {
+              // opens events in a popup window
+              window.open(arg.event.url, 'google-calendar-event', 'width=700,height=600');
+
+              arg.jsEvent.preventDefault() // don't navigate in main tab
+            },
+
+            loading: function(bool) {
+              document.getElementById('loading').style.display =
+                bool ? 'block' : 'none';
+            }
+
+          });
+
+          calendar.render();
+        });
 
       </script>
 

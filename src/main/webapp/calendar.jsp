@@ -14,6 +14,7 @@
 <script src='../packages/list/main.js'></script>
 <script src='../packages/google-calendar/main.js'></script>
 <script src='./config.js'></script>
+
 <style>
 
   body {
@@ -65,6 +66,7 @@
         var authorizeButton = document.getElementById('authorize_button');
         var signoutButton = document.getElementById('signout_button');
         var preContent = document.getElementById('content');
+        var calendarEl = document.getElementById('calendar');
 
         /**
          *  On load, called to load the auth2 library and API client library.
@@ -147,15 +149,14 @@
           gapi.client.calendar.calendarList.list({
           }).then(function(response) {
             var listOfCalendars = response.result.items.map(item => item.id);
-            console.log("Response", listOfCalendars);
             listUpcomingEvents(Array.from(listOfCalendars));
+            createFullCalendar(listOfCalendars)
           });
         }
 
         function listUpcomingEvents(calendarList) {
           appendPre('Upcoming events:');
           for (i = 0; i < calendarList.length; i++) {
-            console.log("Response", calendarList[i]);
             gapi.client.calendar.events.list({
               'calendarId': calendarList[i],
               'timeMin': (new Date()).toISOString(),
@@ -179,61 +180,48 @@
             });
           }
         }
-
-        function allEvents () {
-          gapi.client.calendar.calendarList.list({
-          }).then(function(response) {
-            return response.result.items.map(item => item.id);
-          });
-        }
-
-        var allCalEvents = allEvents();
-        console.log("Response for event listener", allCalEvents);
-
-        document.addEventListener('DOMContentLoaded', function() {
-          var calendarEl = document.getElementById('calendar');
+        function createFullCalendar(eventSources) {
+          var newEventSoures = eventSources.map(function (eventID) {
+            return {
+              googleCalendarId : eventID
+            }
+          })
+          console.log("Response", newEventSoures);
 
           var calendar = new FullCalendar.Calendar(calendarEl, {
 
-            plugins: [ 'interaction', 'timeGrid', 'list', 'googleCalendar' ],
+          plugins: [ 'interaction', 'timeGrid', 'list', 'googleCalendar' ],
 
-            defaultView: 'timeGridWeek',
+          defaultView: 'timeGridWeek',
 
-            header: {
-              left: 'prev,next today',
-              center: 'title',
-              right: 'dayGridWeek,dayGridMonth,listYear'
-            },
+          header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridWeek,dayGridMonth,listYear'
+          },
 
-            displayEventTime: false, // don't show the time column in list view
+          displayEventTime: false, // don't show the time column in list view
 
-            googleCalendarApiKey: config.API_KEY,
+          googleCalendarApiKey: config.API_KEY,
 
-            eventSources: [
-              {
-                googleCalendarId: 'codeustudents.com_3m9ptltrov41ihifmffmaeqo0k@group.calendar.google.com'
-              },
-              {
-                googleCalendarId:'en.usa#holiday@group.v.calendar.google.com'
-              }
-            ],
+          eventSources: newEventSoures,
 
-            eventClick: function(arg) {
-              // opens events in a popup window
-              window.open(arg.event.url, 'google-calendar-event', 'width=700,height=600');
+          eventClick: function(arg) {
+            // opens events in a popup window
+            window.open(arg.event.url, 'google-calendar-event', 'width=700,height=600');
 
-              arg.jsEvent.preventDefault() // don't navigate in main tab
-            },
+            arg.jsEvent.preventDefault() // don't navigate in main tab
+          },
 
-            loading: function(bool) {
-              document.getElementById('loading').style.display =
-                bool ? 'block' : 'none';
-            }
+          loading: function(bool) {
+            document.getElementById('loading').style.display =
+              bool ? 'block' : 'none';
+          }
 
-          });
-
-          calendar.render();
         });
+
+        calendar.render();
+      }
 
       </script>
 

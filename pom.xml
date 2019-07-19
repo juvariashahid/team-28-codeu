@@ -90,6 +90,12 @@ limitations under the License.
         <artifactId>google-oauth-client-jetty</artifactId>
         <version>1.11.0-beta</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.api-client</groupId>
+      <artifactId>google-api-client-appengine</artifactId>
+      <version>1.25.0</version>
+    </dependency>
   </dependencies>
 
 

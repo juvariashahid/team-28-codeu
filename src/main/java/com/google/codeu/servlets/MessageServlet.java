@@ -15,14 +15,18 @@
 
 package com.google.codeu.servlets;
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.extensions.appengine.auth.oauth2.AppIdentityCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.CalendarScopes;
+
+import java.io.InputStream;
 import java.util.Collections;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -107,14 +111,14 @@ public class MessageServlet extends HttpServlet {
       .setSummary(summary)
       .setDescription(description);
 
-      DateTime startDateTime = new DateTime("2019-07-16T09:00:00-07:00");
+      DateTime startDateTime = new DateTime("2019-07-20T09:00:00");
       EventDateTime start = new EventDateTime()
           .setDateTime(startDateTime)
           .setTimeZone("America/Los_Angeles");
       event.setStart(start);
 
-      DateTime endDateTime = new DateTime("2019-07-16T17:00:00-07:00");
-      EventDateTime end = new EventDateTime()
+      DateTime endDateTime = new DateTime("2019-07-20T17:00:00");
+      EventDateTime end = new EventDateTime()   
           .setDateTime(endDateTime)
           .setTimeZone("America/Los_Angeles");
       event.setEnd(end);
@@ -127,25 +131,14 @@ public class MessageServlet extends HttpServlet {
     }
   }
 
-    private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
-
-    /**
-     * Global instance of the scopes required by this quickstart.
-     * If modifying these scopes, delete your previously saved tokens/ folder.
-     */
-    private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-    private Calendar getService() throws Exception {
-                        // Build a new authorized API client service.
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        GoogleCredential credential = new GoogleCredential();
-        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
-                .setApplicationName(APPLICATION_NAME)
+  private Calendar getService() throws Exception {
+      final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        AppIdentityCredential credential =
+                new AppIdentityCredential(
+                        Collections.singletonList(CalendarScopes.CALENDAR_EVENTS));
+        return new Calendar.Builder(HTTP_TRANSPORT,
+                JacksonFactory.getDefaultInstance(),
+                credential)
                 .build();
-
-        return service;
-
-    }
+      }
 }

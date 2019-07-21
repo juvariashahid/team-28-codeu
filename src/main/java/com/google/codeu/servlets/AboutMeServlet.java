@@ -60,7 +60,7 @@ public class AboutMeServlet extends HttpServlet{
     UserService userService = UserServiceFactory.getUserService();
     // if the user is not logged return to index
     if (!userService.isUserLoggedIn()) {
-      response.sendRedirect("/index.html");
+      response.sendRedirect("/index.jsp");
       return;
     }
 
@@ -70,6 +70,6 @@ public class AboutMeServlet extends HttpServlet{
     User user = new User(userEmail, aboutMe);
     datastore.storeUser(user);
 
-    response.sendRedirect("/user-page.html?user=" + userEmail);
+    response.sendRedirect("/user-page.jsp?user=" + userEmail);
   }
 }

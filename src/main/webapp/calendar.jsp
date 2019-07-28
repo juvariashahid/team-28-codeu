@@ -149,7 +149,7 @@
           gapi.client.calendar.calendarList.list({
           }).then(function(response) {
             var listOfCalendars = response.result.items.map(item => item.id);
-            listUpcomingEvents(Array.from(listOfCalendars));
+            // listUpcomingEvents(Array.from(listOfCalendars));
             createFullCalendar(listOfCalendars)
           });
         }

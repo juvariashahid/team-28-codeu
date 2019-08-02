@@ -99,46 +99,57 @@ public class MessageServlet extends HttpServlet {
     String description =  request.getParameter("content");
     Message message = new Message(user, text, description, request.getParameter("time"));
     datastore.storeMessage(message);
-    try {
-          createEvent(text, description);
-    } catch (Exception e) {}
+//    try {
+//          createEvent(text, description);
+//    } catch (Exception e) {}
     response.sendRedirect("/user-page.html?user=" + user);
   }
-
-  private void createEvent(String summary, String description) throws IOException {
-    try {
-      Event event = new Event()
-      .setSummary(summary)
-      .setDescription(description);
-
-      DateTime startDateTime = new DateTime("2019-07-20T09:00:00");
-      EventDateTime start = new EventDateTime()
-          .setDateTime(startDateTime)
-          .setTimeZone("America/Los_Angeles");
-      event.setStart(start);
-
-      DateTime endDateTime = new DateTime("2019-07-20T17:00:00");
-      EventDateTime end = new EventDateTime()   
-          .setDateTime(endDateTime)
-          .setTimeZone("America/Los_Angeles");
-      event.setEnd(end);
-
-      String calendarId = "primary";
-      event = getService().events().insert(calendarId, event).execute();
-      System.out.printf(event.getHtmlLink());
-    } catch (Exception e) {
-      System.out.println("An execption occurred: " + e);
-    }
-  }
-
-  private Calendar getService() throws Exception {
-      final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        AppIdentityCredential credential =
-                new AppIdentityCredential(
-                        Collections.singletonList(CalendarScopes.CALENDAR_EVENTS));
-        return new Calendar.Builder(HTTP_TRANSPORT,
-                JacksonFactory.getDefaultInstance(),
-                credential)
-                .build();
-      }
+//
+//  private void createEvent(String summary, String description) throws IOException {
+//    try {
+//      Event event = new Event()
+//      .setSummary(summary)
+//      .setDescription(description);
+//
+//      DateTime startDateTime = new DateTime("2019-07-16T09:00:00-07:00");
+//      EventDateTime start = new EventDateTime()
+//          .setDateTime(startDateTime)
+//          .setTimeZone("America/Los_Angeles");
+//      event.setStart(start);
+//
+//      DateTime endDateTime = new DateTime("2019-07-16T17:00:00-07:00");
+//      EventDateTime end = new EventDateTime()
+//          .setDateTime(endDateTime)
+//          .setTimeZone("America/Los_Angeles");
+//      event.setEnd(end);
+//
+//      String calendarId = "primary";
+//      event = getService().events().insert(calendarId, event).execute();
+//      System.out.printf(event.getHtmlLink());
+//    } catch (Exception e) {
+//      System.out.println("An execption occurred: " + e);
+//    }
+//  }
+//
+//    private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
+//    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+//    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+//
+//    /**
+//     * Global instance of the scopes required by this quickstart.
+//     * If modifying these scopes, delete your previously saved tokens/ folder.
+//     */
+//    private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
+//    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+//    private Calendar getService() throws Exception {
+//                        // Build a new authorized API client service.
+//        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+//        GoogleCredential credential = new GoogleCredential();
+//        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+//                .setApplicationName(APPLICATION_NAME)
+//                .build();
+//
+//        return service;
+//
+//    }
 }

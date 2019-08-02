@@ -16,6 +16,30 @@
 
 /* Set the size of the message input to be 100 pixels high
    and will fill the width of its parent element. */
+
+html, body{
+   height: 100%;
+   margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+ }
+
 #message-input {
   height: 100px;
   width: 100%;
@@ -26,6 +50,7 @@
   border: thin solid black;
   border-radius: 5px;
   margin-top: 20px;
+  width: 400px;
 }
 
 /* Add a bottom border to the message header. */

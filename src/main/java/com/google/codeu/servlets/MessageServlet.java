@@ -99,9 +99,6 @@ public class MessageServlet extends HttpServlet {
     String description =  request.getParameter("content");
     Message message = new Message(user, text, description, request.getParameter("time"));
     datastore.storeMessage(message);
-//    try {
-//          createEvent(text, description);
-//    } catch (Exception e) {}
     response.sendRedirect("/user-page.html?user=" + user);
   }
 //

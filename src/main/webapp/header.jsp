@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="/css/main.css">
     <script src="/js/navigation-loader.js"></script>
   </head>
-<!--     <body onload="addLoginOrLogoutLinkToNavigation();">
- -->      <nav>
+    <body onload="buildUI();">
+      <nav>
           <ul id="navigation">
           <li><a href="/calendar.jsp">myCal</a></li>
           <li><a href="/aboutus.html">About Our Team</a></li>

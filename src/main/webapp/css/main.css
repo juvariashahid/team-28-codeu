@@ -16,9 +16,9 @@
 
 /* Prevent the page from becoming too wide. */
 body {
-  max-width: 1000px;
+  /*max-width: 1000px;*/
   background: AliceBlue;
-  margin: auto;
+  /*margin: auto;*/
 }
 
 .main {

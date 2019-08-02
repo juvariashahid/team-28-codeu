@@ -15,6 +15,7 @@
  */
 
 // Get ?user=XYZ parameter value
+console.log("User page loader js")
 const urlParams = new URLSearchParams(window.location.search);
 const parameterUsername = urlParams.get('user');
 
@@ -42,8 +43,8 @@ function showMessageFormIfViewingSelf() {
             loginStatus.username == parameterUsername) {
           const messageForm = document.getElementById('message-form');
           messageForm.classList.remove('hidden');
-          const aboutMeForm = document.getElementById('about-me-form');
-          aboutMeForm.classList.remove('hidden');
+          // const aboutMeForm = document.getElementById('about-me-form');
+          // aboutMeForm.classList.remove('hidden');
         }
       });
 
@@ -95,23 +96,24 @@ function buildMessageDiv(message) {
 
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
+  console.log("Building UI");
   setPageTitle();
   showMessageFormIfViewingSelf();
   fetchMessages();
-  fetchAboutMe();
+  // fetchAboutMe();
 }
 
-function fetchAboutMe(){
-  const url = '/about?user=' + parameterUsername;
-  fetch(url).then((response) => {
-    return response.text();
-  }).then((aboutMe) => {
-    const aboutMeContainer = document.getElementById('about-me-container');
-    if(aboutMe == ''){
-      aboutMe = 'This user has not entered any information yet.';
-    }
+// function fetchAboutMe(){
+//   const url = '/about?user=' + parameterUsername;
+//   fetch(url).then((response) => {
+//     return response.text();
+//   }).then((aboutMe) => {
+//     const aboutMeContainer = document.getElementById('about-me-container');
+//     if(aboutMe == ''){
+//       aboutMe = 'This user has not entered any information yet.';
+//     }
 
-    aboutMeContainer.innerHTML = aboutMe;
+//     aboutMeContainer.innerHTML = aboutMe;
 
-  });
-}
+//   });
+// }

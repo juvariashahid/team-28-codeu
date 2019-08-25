@@ -1,1 +1,5 @@
-# codeu-starter-project
+# Final Project for Google CodeU 
+Languages: 
+Java
+JavaScript
+HTML/CSS
